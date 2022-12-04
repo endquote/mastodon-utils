@@ -1,0 +1,74 @@
+{
+  "name": "mastodon-feedbin",
+  "version": "0.0.0",
+  "description": "sync things between mastodon and feedbin",
+  "author": "Josh Santangelo @endquote",
+  "bin": {
+    "mastodon-feedbin": "./bin/run"
+  },
+  "homepage": "https://github.com/endquote/mastodon-feedbin",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": "endquote/mastodon-feedbin",
+  "files": [
+    "/bin",
+    "/dist",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "dependencies": {
+    "@oclif/core": "1.19.1",
+    "@oclif/plugin-help": "5.1.19",
+    "@oclif/plugin-plugins": "2.1.7",
+    "axios": "1.1.3",
+    "dotenv": "16.0.3",
+    "parse-link-header": "2.0.0"
+  },
+  "devDependencies": {
+    "@oclif/test": "2.2.12",
+    "@types/chai": "4.3.4",
+    "@types/mocha": "9.0.0",
+    "@types/node": "16.18.4",
+    "@types/parse-link-header": "2.0.0",
+    "chai": "4.3.7",
+    "eslint": "7.32.0",
+    "eslint-config-oclif": "4.0.0",
+    "eslint-config-oclif-typescript": "1.0.3",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-unused-imports": "1.1.5",
+    "mocha": "9.2.2",
+    "oclif": "3.3.0",
+    "shx": "0.3.3",
+    "ts-node": "10.9.1",
+    "tslib": "2.4.1",
+    "typescript": "4.9.3"
+  },
+  "oclif": {
+    "bin": "mastodon-feedbin",
+    "dirname": "mastodon-feedbin",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": " ",
+    "topics": {}
+  },
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint . --ext .ts --config .eslintrc",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "posttest": "yarn lint",
+    "prepack": "yarn build && oclif manifest && oclif readme",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif readme && git add README.md"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "bugs": "https://github.com/endquote/mastodon-feedbin/issues",
+  "keywords": [
+    "oclif"
+  ],
+  "types": "dist/index.d.ts"
+}

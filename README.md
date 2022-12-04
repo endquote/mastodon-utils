@@ -39,7 +39,6 @@ USAGE
 * [`mastodon-feedbin plugins:uninstall PLUGIN...`](#mastodon-feedbin-pluginsuninstall-plugin-1)
 * [`mastodon-feedbin plugins:uninstall PLUGIN...`](#mastodon-feedbin-pluginsuninstall-plugin-2)
 * [`mastodon-feedbin plugins update`](#mastodon-feedbin-plugins-update)
-* [`mastodon-feedbin sync`](#mastodon-feedbin-sync)
 
 ## `mastodon-feedbin help [COMMAND]`
 
@@ -290,22 +289,4 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
-
-## `mastodon-feedbin sync`
-
-sync mastodon followers with feedbin rss feeds
-
-```
-USAGE
-  $ mastodon-feedbin sync [-r] [-c <value>]
-
-FLAGS
-  -c, --configFile=<value>  path to an alternate config file
-  -r, --reset               reset any saved configuration
-
-DESCRIPTION
-  sync mastodon followers with feedbin rss feeds
-```
-
-_See code: [dist/commands/sync.ts](https://github.com/endquote/mastodon-feedbin/blob/v0.0.0/dist/commands/sync.ts)_
 <!-- commandsstop -->

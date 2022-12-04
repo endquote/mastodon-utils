@@ -1,4 +1,4 @@
-mastodon-feedbin
+mastodon-utils
 =================
 
 <!-- toc -->
@@ -8,37 +8,38 @@ mastodon-feedbin
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g mastodon-feedbin
-$ mastodon-feedbin COMMAND
+$ npm install -g mastodon-utils
+$ mastodon-utils COMMAND
 running command...
-$ mastodon-feedbin (--version)
-mastodon-feedbin/0.0.0 darwin-x64 node-v18.12.1
-$ mastodon-feedbin --help [COMMAND]
+$ mastodon-utils (--version)
+mastodon-utils/0.0.0 darwin-x64 node-v18.12.1
+$ mastodon-utils --help [COMMAND]
 USAGE
-  $ mastodon-feedbin COMMAND
+  $ mastodon-utils COMMAND
 ...
 ```
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`mastodon-feedbin help [COMMAND]`](#mastodon-feedbin-help-command)
-* [`mastodon-feedbin plugins`](#mastodon-feedbin-plugins)
-* [`mastodon-feedbin plugins:install PLUGIN...`](#mastodon-feedbin-pluginsinstall-plugin)
-* [`mastodon-feedbin plugins:inspect PLUGIN...`](#mastodon-feedbin-pluginsinspect-plugin)
-* [`mastodon-feedbin plugins:install PLUGIN...`](#mastodon-feedbin-pluginsinstall-plugin-1)
-* [`mastodon-feedbin plugins:link PLUGIN`](#mastodon-feedbin-pluginslink-plugin)
-* [`mastodon-feedbin plugins:uninstall PLUGIN...`](#mastodon-feedbin-pluginsuninstall-plugin)
-* [`mastodon-feedbin plugins:uninstall PLUGIN...`](#mastodon-feedbin-pluginsuninstall-plugin-1)
-* [`mastodon-feedbin plugins:uninstall PLUGIN...`](#mastodon-feedbin-pluginsuninstall-plugin-2)
-* [`mastodon-feedbin plugins update`](#mastodon-feedbin-plugins-update)
+* [`mastodon-utils help [COMMAND]`](#mastodon-utils-help-command)
+* [`mastodon-utils plugins`](#mastodon-utils-plugins)
+* [`mastodon-utils plugins:install PLUGIN...`](#mastodon-utils-pluginsinstall-plugin)
+* [`mastodon-utils plugins:inspect PLUGIN...`](#mastodon-utils-pluginsinspect-plugin)
+* [`mastodon-utils plugins:install PLUGIN...`](#mastodon-utils-pluginsinstall-plugin-1)
+* [`mastodon-utils plugins:link PLUGIN`](#mastodon-utils-pluginslink-plugin)
+* [`mastodon-utils plugins:uninstall PLUGIN...`](#mastodon-utils-pluginsuninstall-plugin)
+* [`mastodon-utils plugins:uninstall PLUGIN...`](#mastodon-utils-pluginsuninstall-plugin-1)
+* [`mastodon-utils plugins:uninstall PLUGIN...`](#mastodon-utils-pluginsuninstall-plugin-2)
+* [`mastodon-utils plugins update`](#mastodon-utils-plugins-update)
+* [`mastodon-utils sync`](#mastodon-utils-sync)
 
-## `mastodon-feedbin help [COMMAND]`
+## `mastodon-utils help [COMMAND]`
 
-Display help for mastodon-feedbin.
+Display help for mastodon-utils.
 
 ```
 USAGE
-  $ mastodon-feedbin help [COMMAND] [-n]
+  $ mastodon-utils help [COMMAND] [-n]
 
 ARGUMENTS
   COMMAND  Command to show help for.
@@ -47,18 +48,18 @@ FLAGS
   -n, --nested-commands  Include all nested commands in the output.
 
 DESCRIPTION
-  Display help for mastodon-feedbin.
+  Display help for mastodon-utils.
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.19/src/commands/help.ts)_
 
-## `mastodon-feedbin plugins`
+## `mastodon-utils plugins`
 
 List installed plugins.
 
 ```
 USAGE
-  $ mastodon-feedbin plugins [--core]
+  $ mastodon-utils plugins [--core]
 
 FLAGS
   --core  Show core plugins.
@@ -67,18 +68,18 @@ DESCRIPTION
   List installed plugins.
 
 EXAMPLES
-  $ mastodon-feedbin plugins
+  $ mastodon-utils plugins
 ```
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.1.7/src/commands/plugins/index.ts)_
 
-## `mastodon-feedbin plugins:install PLUGIN...`
+## `mastodon-utils plugins:install PLUGIN...`
 
 Installs a plugin into the CLI.
 
 ```
 USAGE
-  $ mastodon-feedbin plugins:install PLUGIN...
+  $ mastodon-utils plugins:install PLUGIN...
 
 ARGUMENTS
   PLUGIN  Plugin to install.
@@ -100,23 +101,23 @@ DESCRIPTION
 
 
 ALIASES
-  $ mastodon-feedbin plugins add
+  $ mastodon-utils plugins add
 
 EXAMPLES
-  $ mastodon-feedbin plugins:install myplugin 
+  $ mastodon-utils plugins:install myplugin 
 
-  $ mastodon-feedbin plugins:install https://github.com/someuser/someplugin
+  $ mastodon-utils plugins:install https://github.com/someuser/someplugin
 
-  $ mastodon-feedbin plugins:install someuser/someplugin
+  $ mastodon-utils plugins:install someuser/someplugin
 ```
 
-## `mastodon-feedbin plugins:inspect PLUGIN...`
+## `mastodon-utils plugins:inspect PLUGIN...`
 
 Displays installation properties of a plugin.
 
 ```
 USAGE
-  $ mastodon-feedbin plugins:inspect PLUGIN...
+  $ mastodon-utils plugins:inspect PLUGIN...
 
 ARGUMENTS
   PLUGIN  [default: .] Plugin to inspect.
@@ -129,16 +130,16 @@ DESCRIPTION
   Displays installation properties of a plugin.
 
 EXAMPLES
-  $ mastodon-feedbin plugins:inspect myplugin
+  $ mastodon-utils plugins:inspect myplugin
 ```
 
-## `mastodon-feedbin plugins:install PLUGIN...`
+## `mastodon-utils plugins:install PLUGIN...`
 
 Installs a plugin into the CLI.
 
 ```
 USAGE
-  $ mastodon-feedbin plugins:install PLUGIN...
+  $ mastodon-utils plugins:install PLUGIN...
 
 ARGUMENTS
   PLUGIN  Plugin to install.
@@ -160,23 +161,23 @@ DESCRIPTION
 
 
 ALIASES
-  $ mastodon-feedbin plugins add
+  $ mastodon-utils plugins add
 
 EXAMPLES
-  $ mastodon-feedbin plugins:install myplugin 
+  $ mastodon-utils plugins:install myplugin 
 
-  $ mastodon-feedbin plugins:install https://github.com/someuser/someplugin
+  $ mastodon-utils plugins:install https://github.com/someuser/someplugin
 
-  $ mastodon-feedbin plugins:install someuser/someplugin
+  $ mastodon-utils plugins:install someuser/someplugin
 ```
 
-## `mastodon-feedbin plugins:link PLUGIN`
+## `mastodon-utils plugins:link PLUGIN`
 
 Links a plugin into the CLI for development.
 
 ```
 USAGE
-  $ mastodon-feedbin plugins:link PLUGIN
+  $ mastodon-utils plugins:link PLUGIN
 
 ARGUMENTS
   PATH  [default: .] path to plugin
@@ -194,16 +195,16 @@ DESCRIPTION
 
 
 EXAMPLES
-  $ mastodon-feedbin plugins:link myplugin
+  $ mastodon-utils plugins:link myplugin
 ```
 
-## `mastodon-feedbin plugins:uninstall PLUGIN...`
+## `mastodon-utils plugins:uninstall PLUGIN...`
 
 Removes a plugin from the CLI.
 
 ```
 USAGE
-  $ mastodon-feedbin plugins:uninstall PLUGIN...
+  $ mastodon-utils plugins:uninstall PLUGIN...
 
 ARGUMENTS
   PLUGIN  plugin to uninstall
@@ -216,17 +217,17 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ mastodon-feedbin plugins unlink
-  $ mastodon-feedbin plugins remove
+  $ mastodon-utils plugins unlink
+  $ mastodon-utils plugins remove
 ```
 
-## `mastodon-feedbin plugins:uninstall PLUGIN...`
+## `mastodon-utils plugins:uninstall PLUGIN...`
 
 Removes a plugin from the CLI.
 
 ```
 USAGE
-  $ mastodon-feedbin plugins:uninstall PLUGIN...
+  $ mastodon-utils plugins:uninstall PLUGIN...
 
 ARGUMENTS
   PLUGIN  plugin to uninstall
@@ -239,17 +240,17 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ mastodon-feedbin plugins unlink
-  $ mastodon-feedbin plugins remove
+  $ mastodon-utils plugins unlink
+  $ mastodon-utils plugins remove
 ```
 
-## `mastodon-feedbin plugins:uninstall PLUGIN...`
+## `mastodon-utils plugins:uninstall PLUGIN...`
 
 Removes a plugin from the CLI.
 
 ```
 USAGE
-  $ mastodon-feedbin plugins:uninstall PLUGIN...
+  $ mastodon-utils plugins:uninstall PLUGIN...
 
 ARGUMENTS
   PLUGIN  plugin to uninstall
@@ -262,17 +263,17 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ mastodon-feedbin plugins unlink
-  $ mastodon-feedbin plugins remove
+  $ mastodon-utils plugins unlink
+  $ mastodon-utils plugins remove
 ```
 
-## `mastodon-feedbin plugins update`
+## `mastodon-utils plugins update`
 
 Update installed plugins.
 
 ```
 USAGE
-  $ mastodon-feedbin plugins update [-h] [-v]
+  $ mastodon-utils plugins update [-h] [-v]
 
 FLAGS
   -h, --help     Show CLI help.
@@ -281,4 +282,22 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
+
+## `mastodon-utils sync`
+
+sync mastodon followers with feedbin rss feeds
+
+```
+USAGE
+  $ mastodon-utils sync [-r] [-c <value>]
+
+FLAGS
+  -c, --configFile=<value>  path to an alternate config file
+  -r, --reset               reset any saved configuration
+
+DESCRIPTION
+  sync mastodon followers with feedbin rss feeds
+```
+
+_See code: [dist/commands/sync.ts](https://github.com/endquote/mastodon-utils/blob/v0.0.0/dist/commands/sync.ts)_
 <!-- commandsstop -->

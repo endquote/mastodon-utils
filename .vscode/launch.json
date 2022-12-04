@@ -4,13 +4,13 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Execute Command",
+      "name": "sync-feeds",
       "skipFiles": [
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/bin/dev",
       "args": [
-        "sync"
+        "sync-feeds"
       ],
       "console": "integratedTerminal",
       "outputCapture": "std"

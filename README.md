@@ -31,7 +31,7 @@ USAGE
 * [`mastodon-utils plugins:uninstall PLUGIN...`](#mastodon-utils-pluginsuninstall-plugin-1)
 * [`mastodon-utils plugins:uninstall PLUGIN...`](#mastodon-utils-pluginsuninstall-plugin-2)
 * [`mastodon-utils plugins update`](#mastodon-utils-plugins-update)
-* [`mastodon-utils sync`](#mastodon-utils-sync)
+* [`mastodon-utils sync-feeds`](#mastodon-utils-sync-feeds)
 
 ## `mastodon-utils help [COMMAND]`
 
@@ -283,13 +283,13 @@ DESCRIPTION
   Update installed plugins.
 ```
 
-## `mastodon-utils sync`
+## `mastodon-utils sync-feeds`
 
 sync mastodon followers with feedbin rss feeds
 
 ```
 USAGE
-  $ mastodon-utils sync [-r] [-c <value>]
+  $ mastodon-utils sync-feeds [-r] [-c <value>]
 
 FLAGS
   -c, --configFile=<value>  path to an alternate config file
@@ -299,5 +299,5 @@ DESCRIPTION
   sync mastodon followers with feedbin rss feeds
 ```
 
-_See code: [dist/commands/sync.ts](https://github.com/endquote/mastodon-utils/blob/v0.0.0/dist/commands/sync.ts)_
+_See code: [dist/commands/sync-feeds.ts](https://github.com/endquote/mastodon-utils/blob/v0.0.0/dist/commands/sync-feeds.ts)_
 <!-- commandsstop -->

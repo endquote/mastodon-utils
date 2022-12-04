@@ -1,9 +1,10 @@
-import { CliUx } from "@oclif/core";
+import { CliUx, Command } from "@oclif/core";
 import axios from "axios";
 import { readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 
 export class Config {
+  command!: Command;
   instance?: string;
   clientId?: string;
   clientSecret?: string;
@@ -11,9 +12,17 @@ export class Config {
   account?: string;
   accountId?: string;
   path?: string;
+  feedbinUser?: string;
+  feedbinPass?: string;
+  feedbinTags: string[] = [];
 
-  static init = async (reset: boolean, path?: string): Promise<Config> => {
+  static init = async (
+    command: Command,
+    reset: boolean,
+    path?: string
+  ): Promise<Config> => {
     const c = new Config();
+    c.command = command;
     c.readConfig(reset, path);
     await c.initApp();
     return c;
@@ -41,6 +50,9 @@ export class Config {
     this.tokens = json.tokens || {};
     this.account = json.account;
     this.accountId = json.accountId;
+    this.feedbinUser = json.feedbinUser;
+    this.feedbinPass = json.feedbinPass;
+    this.feedbinTags = json.feedbinTags || [];
   };
 
   /**
@@ -57,6 +69,9 @@ export class Config {
       tokens: this.tokens,
       account: this.account,
       accountId: this.accountId,
+      feedbinUser: this.feedbinUser,
+      feedbinPass: this.feedbinPass,
+      feedbinTags: this.feedbinTags,
     };
     writeFileSync(file, JSON.stringify(config, null, 2));
   };
@@ -146,4 +161,41 @@ export class Config {
       this.writeConfig();
     }
   };
-};
+
+  getFeedbinAccount = async (): Promise<void> => {
+    if (!this.feedbinUser || !this.feedbinPass) {
+      const username = await CliUx.ux.prompt("feedbin username", {
+        required: true,
+      });
+
+      const password = await CliUx.ux.prompt("feedbin password", {
+        required: true,
+      });
+
+      try {
+        const res = await axios.get(
+          "https://api.feedbin.com/v2/authentication.json",
+          { auth: { username, password } }
+        );
+      } catch {
+        this.command.log("couldn't authorize feedbin");
+        this.command.exit();
+      }
+
+      this.feedbinUser = username;
+      this.feedbinPass = password;
+      this.writeConfig();
+    }
+  };
+
+  getFeedbinTags = async (): Promise<void> => {
+    if (this.feedbinTags.length === 0) {
+      const tags: string = await CliUx.ux.prompt(
+        "tags to apply to rss feeds, separate with commas",
+        { required: false }
+      );
+      this.feedbinTags = tags.split(",").map((t) => t.trim());
+      this.writeConfig();
+    }
+  };
+}

@@ -10,3 +10,5 @@ export const sharedFlags = {
     summary: "path to an alternate config file",
   }),
 };
+
+export const feedTag = "mastodon";

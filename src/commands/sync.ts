@@ -3,7 +3,7 @@ import axios from "axios";
 import * as dotenv from "dotenv";
 import parseLinkHeader from "parse-link-header";
 import { Config } from "../config";
-import { feedTag, sharedFlags } from "../constants";
+import { sharedFlags } from "../constants";
 
 export default class Sync extends Command {
   static description = "sync mastodon followers with feedbin rss feeds";
@@ -16,10 +16,10 @@ export default class Sync extends Command {
     const { args, flags } = await this.parse(Sync);
 
     const config = await Config.init(this, flags.reset, flags.configFile);
-    await config.getPublicToken();
-    await config.getMastodonAccount();
-    await config.getFeedbinAccount();
-    await config.getFeedbinTags();
+    await config.setPublicToken();
+    await config.setMastodonAccount();
+    await config.setFeedbinAccount();
+    await config.setFeedbinTags();
 
     const mastodon = axios.create({
       baseURL: `${config.instance}/api/v1`,
@@ -50,13 +50,37 @@ export default class Sync extends Command {
     const taggings = (await feedbin.get("/taggings.json")).data;
 
     // get subscriptions created by this tool
-    const followedSubscriptions = taggings
-      .filter((t: any) => t.name === feedTag)
+    const followedSubs = taggings
+      .filter((t: any) => t.name === config.feedbinTags[0])
       .map((t: any) => subscriptions.find((s: any) => s.feed_id === t.feed_id));
 
-    // for each following, if no followed subscription, add subscription
+    // for each following
+    for (const follow of following) {
+      const feed_url = `${follow.url}.rss`;
+      // find subscription
+      const sub = subscriptions.find((f: any) => f.feed_url === feed_url);
+      if (!sub) {
+        // no subscription found, add one
+        this.log(`adding subscription to ${feed_url}`);
+        const res = await feedbin.post("/subscriptions.json", { feed_url });
+        const feed_id = res.data.feed_id;
+        for (const tag of config.feedbinTags) {
+          // add tags
+          await feedbin.post("/taggings.json", { feed_id, name: tag });
+        }
+      }
+    }
 
-    // for each followed subscription, if no following, remove subscription
+    // for each subscription
+    for (const sub of followedSubs) {
+      // find follow
+      const follow = following.find((f) => f.url === sub.site_url);
+      if (!follow) {
+        // if there's no follow, remove the subscription
+        this.log(`removing subscription to ${sub.feed_url}`);
+        await feedbin.delete(`/subscriptions/${sub.id}.json`);
+      }
+    }
 
     this.log("complete");
   }

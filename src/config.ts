@@ -109,7 +109,7 @@ export class Config {
    * @param config the config object to save to
    * @returns void
    */
-  getPublicToken = async (): Promise<void> => {
+  setPublicToken = async (): Promise<void> => {
     if (!this.tokens.public) {
       const res = await axios.post(`${this.instance}/oauth/token`, {
         client_id: this.clientId,
@@ -127,7 +127,7 @@ export class Config {
    * @param scopes the access scopes to request
    * @returns void
    */
-  getPrivateToken = async (scopes: string): Promise<void> => {
+  setPrivateToken = async (scopes: string): Promise<void> => {
     if (this.instance && this.clientId && !this.tokens[scopes]) {
       const tokenUrl = `${this.instance}/oauth/authorize?client_id=${this.clientId}&scope=${scopes}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code`;
       await CliUx.ux.anykey("press any key to grant permission");
@@ -140,7 +140,11 @@ export class Config {
     }
   };
 
-  getMastodonAccount = async (): Promise<void> => {
+  /**
+   * set the account name/id on mastodon
+   * @returns void
+   */
+  setMastodonAccount = async (): Promise<void> => {
     if (!this.account) {
       const account = await CliUx.ux.prompt(
         "enter the username on your instance",
@@ -162,7 +166,11 @@ export class Config {
     }
   };
 
-  getFeedbinAccount = async (): Promise<void> => {
+  /**
+   * set the username/password on feedbin
+   * @return void
+   */
+  setFeedbinAccount = async (): Promise<void> => {
     if (!this.feedbinUser || !this.feedbinPass) {
       const username = await CliUx.ux.prompt("feedbin username", {
         required: true,
@@ -188,13 +196,22 @@ export class Config {
     }
   };
 
-  getFeedbinTags = async (): Promise<void> => {
+  /**
+   * set the tags to use on feedbin
+   * @returns void
+   */
+  setFeedbinTags = async (): Promise<void> => {
     if (this.feedbinTags.length === 0) {
-      const tags: string = await CliUx.ux.prompt(
-        "tags to apply to rss feeds, separate with commas",
-        { required: false }
+      const primary: string = await CliUx.ux.prompt(
+        "tag to apply to mastodon rss feeds, this tag should not be used for other feeds",
+        { required: true, default: "t:mastodon" }
       );
-      this.feedbinTags = tags.split(",").map((t) => t.trim());
+
+      const tags: string = await CliUx.ux.prompt(
+        "other tags to apply to mastodon rss feeds, separate with commas",
+        { required: false, default: "t:all,t:social,s:script" }
+      );
+      this.feedbinTags = [primary, ...tags.split(",").map((t) => t.trim())];
       this.writeConfig();
     }
   };

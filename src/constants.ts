@@ -11,4 +11,3 @@ export const sharedFlags = {
   }),
 };
 
-export const feedTag = "mastodon";

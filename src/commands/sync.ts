@@ -2,12 +2,7 @@ import { Command } from "@oclif/core";
 import axios from "axios";
 import * as dotenv from "dotenv";
 import parseLinkHeader from "parse-link-header";
-import {
-  getMastodonAccount,
-  getPublicToken,
-  initApp,
-  readConfig,
-} from "../config";
+import { Config } from "../config";
 import { sharedFlags } from "../constants";
 
 export default class Sync extends Command {
@@ -20,10 +15,9 @@ export default class Sync extends Command {
     dotenv.config();
     const { args, flags } = await this.parse(Sync);
 
-    let config = readConfig(flags.reset, flags.configFile);
-    config = await initApp(config);
-    config = await getPublicToken(config);
-    config = await getMastodonAccount(config);
+    const config = await Config.init(flags.reset, flags.configFile);
+    await config.getPublicToken();
+    await config.getMastodonAccount();
 
     const http = axios.create({
       baseURL: `${config.instance}/api/v1`,

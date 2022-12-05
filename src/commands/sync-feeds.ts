@@ -23,8 +23,8 @@ export default class Sync extends Command {
     await config.setFeedbinTags();
 
     const mastodon = axios.create({
-      baseURL: `${config.instance}/api/v1`,
-      headers: { Authorization: `Bearer: ${config.tokens.public}` },
+      baseURL: `${config.instance}/api`,
+      headers: { Authorization: `Bearer ${config.tokens.public}` },
     });
 
     const feedbin = axios.create({
@@ -34,7 +34,7 @@ export default class Sync extends Command {
 
     // get mastodon followings
     const following = [];
-    let url = `/accounts/${config.accountId}/following`;
+    let url = `/v1/accounts/${config.accountId}/following`;
     while (url) {
       const res = await mastodon.get(url);
       following.push(...res.data);
@@ -60,7 +60,6 @@ export default class Sync extends Command {
       const sub = subscriptions.find((f: any) => f.feed_url === feed_url);
       if (!sub) {
         // no subscription found, add one
-        this.log(`adding subscription to ${feed_url}`);
         const res = await feedbin.post("/subscriptions.json", { feed_url });
         const feed_id = res.data.feed_id;
         for (const tag of config.feedbinTags) {
@@ -74,9 +73,12 @@ export default class Sync extends Command {
     for (const sub of followedSubs) {
       // find follow
       const follow = following.find((f) => f.url === sub.site_url);
-      if (!follow) {
+      // let me subscribe to myself
+      const self =
+        sub.feed_url.includes(config.instance) &&
+        sub.feed_url.includes(`${config.account}.rss`);
+      if (!follow && !self) {
         // if there's no follow, remove the subscription
-        this.log(`removing subscription to ${sub.feed_url}`);
         await feedbin.delete(`/subscriptions/${sub.id}.json`);
       }
     }

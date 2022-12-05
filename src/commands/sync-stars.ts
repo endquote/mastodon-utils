@@ -23,7 +23,7 @@ export default class Sync extends Command {
     await config.setFeedbinAccount();
 
     const mastodon = axios.create({
-      baseURL: `${config.instance}/api/v1`,
+      baseURL: `${config.instance}/api`,
       headers: {
         Authorization: `Bearer ${config.tokens["read+write+follow+push"]}`,
       },
@@ -36,7 +36,7 @@ export default class Sync extends Command {
 
     // get mastodon followings
     const following: any[] = [];
-    let url = `/accounts/${config.accountId}/following`;
+    let url = `/v1/accounts/${config.accountId}/following`;
     while (url) {
       const res = await mastodon.get(url);
       following.push(...res.data);
@@ -45,29 +45,47 @@ export default class Sync extends Command {
     }
 
     // get starred entries on feedbin
-    const ids: number[] = (await feedbin.get("/starred_entries.json")).data;
-    const stars: any[] = [];
+    const starIds: number[] = (await feedbin.get("/starred_entries.json")).data;
+    const starEntries: any[] = [];
 
     // you can get 100 at a time
-    while (ids.length > 0) {
-      const page = ids.splice(0, 100);
+    while (starIds.length > 0) {
+      const page = starIds.splice(0, 100);
       const params = { ids: page.join(",") };
       const entries = (await feedbin.get("/entries.json", { params })).data;
-      stars.push(...entries);
+      starEntries.push(...entries);
     }
 
-    // get the starred entries which are mastodon posts
-    const mastoStars = stars.filter((s) =>
-      following.find((f) => s.url.includes(f.url))
-    );
+    // match starred entries with mastodon users
+    const stars = starEntries
+      .map((s) => ({
+        entry: s,
+        user: following.find((f) => s.url.includes(f.url)),
+      }))
+      .filter((s) => s.user);
 
-    for (const star of mastoStars) {
-      this.log(`favouriting ${star.url}`);
-      // favourite the post on mastodon
-      const id = star.url.split("/").pop();
-      try {
-        await mastodon.post(`/statuses/${id}/favourite`);
-      } catch {}
+    for (const star of stars) {
+      // search for the post on my instance
+      const res = await mastodon.get(`/v2/search`, {
+        params: {
+          q: star.entry.url,
+          following: true,
+          type: "statuses",
+          resolve: true,
+          account_id: star.user.acct,
+        },
+      });
+
+      const id = res.data.statuses?.[0]?.id;
+      if (id) {
+        // favourite the post
+        await mastodon.post(`/v1/statuses/${id}/favourite`);
+
+        // delete the star on feedbin
+        await feedbin.delete("/starred_entries.json", {
+          data: { starred_entries: [star.entry.id] },
+        });
+      }
     }
 
     this.log("complete");

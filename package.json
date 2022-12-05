@@ -1,5 +1,5 @@
 {
-  "name": "@endquote/mastodon-utils",
+  "name": "mastodon-utils",
   "version": "0.0.1",
   "description": "sync things between mastodon and feedbin",
   "author": "Josh Santangelo @endquote",

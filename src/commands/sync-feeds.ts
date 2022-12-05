@@ -1,5 +1,6 @@
 import { Command } from "@oclif/core";
 import axios from "axios";
+import "axios-debug-log/enable";
 import * as dotenv from "dotenv";
 import parseLinkHeader from "parse-link-header";
 import { Config } from "../config";
@@ -40,8 +41,6 @@ export default class Sync extends Command {
       const links = parseLinkHeader(res.headers.link);
       url = links && links.next ? links.next.url : "";
     }
-
-    this.log(`got ${following.length} accounts`);
 
     // get feedbin subscriptions
     const subscriptions = (await feedbin.get("/subscriptions.json")).data;

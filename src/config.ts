@@ -93,9 +93,9 @@ export class Config {
 
     if (!this.clientId || !this.clientSecret) {
       const res = await axios.post(`${this.instance}/api/v1/apps`, {
-        client_name: "Mastodon RSS Feed Sync",
+        client_name: "mastodon-utils",
         redirect_uris: "urn:ietf:wg:oauth:2.0:oob",
-        scopes: "read",
+        scopes: "read write follow push",
         website: "https://mousectrl.org",
       });
       this.clientId = res.data.client_id;
@@ -129,13 +129,23 @@ export class Config {
    */
   setPrivateToken = async (scopes: string): Promise<void> => {
     if (this.instance && this.clientId && !this.tokens[scopes]) {
-      const tokenUrl = `${this.instance}/oauth/authorize?client_id=${this.clientId}&scope=${scopes}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code`;
+      const authUrl = `${this.instance}/oauth/authorize?client_id=${this.clientId}&scope=${scopes}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code`;
       await CliUx.ux.anykey("press any key to grant permission");
-      await CliUx.ux.open(tokenUrl);
-      const token = await CliUx.ux.prompt("enter the token", {
+      await CliUx.ux.open(authUrl);
+      const code = await CliUx.ux.prompt("enter the code", {
         required: true,
       });
-      this.tokens[scopes] = token;
+
+      const res = await axios.post(`${this.instance}/oauth/token`, {
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        redirect_uri: "urn:ietf:wg:oauth:2.0:oob",
+        grant_type: "authorization_code",
+        code,
+        scope: scopes.replace(/\+/g, " "),
+      });
+
+      this.tokens[scopes] = res.data.access_token;
       this.writeConfig();
     }
   };

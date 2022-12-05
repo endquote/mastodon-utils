@@ -14,6 +14,20 @@
       ],
       "console": "integratedTerminal",
       "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "sync-stars",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/bin/dev",
+      "args": [
+        "sync-stars"
+      ],
+      "console": "integratedTerminal",
+      "outputCapture": "std"
     }
   ]
 }

@@ -7,7 +7,7 @@ import { Config } from "../config";
 import { sharedFlags } from "../constants";
 
 export default class Sync extends Command {
-  static description = "sync mastodon followers with feedbin rss feeds";
+  static description = "sync feedbin stars with mastodon favourites";
   static examples = [];
   static flags = { ...sharedFlags };
   static args = [];

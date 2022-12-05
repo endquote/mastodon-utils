@@ -1,6 +1,6 @@
 {
-  "name": "mastodon-utils",
-  "version": "0.0.0",
+  "name": "@endquote/mastodon-utils",
+  "version": "0.0.1",
   "description": "sync things between mastodon and feedbin",
   "author": "Josh Santangelo @endquote",
   "bin": {
@@ -59,8 +59,8 @@
     "build": "shx rm -rf dist && tsc -b",
     "lint": "eslint . --ext .ts --config .eslintrc",
     "postpack": "shx rm -f oclif.manifest.json",
-    "posttest": "yarn lint",
-    "prepack": "yarn build && oclif manifest && oclif readme",
+    "posttest": "pnpm lint",
+    "prepack": "pnpm build && oclif manifest && oclif readme",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif readme && git add README.md"
   },

@@ -8,11 +8,11 @@ mastodon-utils
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g mastodon-utils
+$ npm install -g @endquote/mastodon-utils
 $ mastodon-utils COMMAND
 running command...
 $ mastodon-utils (--version)
-mastodon-utils/0.0.0 darwin-x64 node-v18.12.1
+@endquote/mastodon-utils/0.0.1 darwin-x64 node-v18.12.1
 $ mastodon-utils --help [COMMAND]
 USAGE
   $ mastodon-utils COMMAND
@@ -31,7 +31,6 @@ USAGE
 * [`mastodon-utils plugins:uninstall PLUGIN...`](#mastodon-utils-pluginsuninstall-plugin-1)
 * [`mastodon-utils plugins:uninstall PLUGIN...`](#mastodon-utils-pluginsuninstall-plugin-2)
 * [`mastodon-utils plugins update`](#mastodon-utils-plugins-update)
-* [`mastodon-utils sync-feeds`](#mastodon-utils-sync-feeds)
 
 ## `mastodon-utils help [COMMAND]`
 
@@ -282,22 +281,4 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
-
-## `mastodon-utils sync-feeds`
-
-sync mastodon followers with feedbin rss feeds
-
-```
-USAGE
-  $ mastodon-utils sync-feeds [-r] [-c <value>]
-
-FLAGS
-  -c, --configFile=<value>  path to an alternate config file
-  -r, --reset               reset any saved configuration
-
-DESCRIPTION
-  sync mastodon followers with feedbin rss feeds
-```
-
-_See code: [dist/commands/sync-feeds.ts](https://github.com/endquote/mastodon-utils/blob/v0.0.0/dist/commands/sync-feeds.ts)_
 <!-- commandsstop -->

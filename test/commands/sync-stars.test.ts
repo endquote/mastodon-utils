@@ -1,10 +1,10 @@
 import { expect, test } from "@oclif/test";
 
-describe("sync-feeds", () => {
+describe("sync-stars", () => {
   test
     .stdout()
-    .command(["sync-feeds"])
-    .it("runs sync-feeds cmd", (ctx) => {
+    .command(["sync-stars"])
+    .it("runs sync-stars cmd", (ctx) => {
       expect(ctx.stdout).to.contain("complete");
     });
 });

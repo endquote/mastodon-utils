@@ -24,6 +24,7 @@
     "@typescript-eslint/no-unused-vars": "warn",
     "no-unused-vars": "warn",
     "no-await-in-loop": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "complexity": "off"
   }
 }

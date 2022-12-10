@@ -40,7 +40,9 @@
       "args": [
         "timeline",
         "-f",
-        "home"
+        "home",
+        "-p",
+        "~/Downloads/mastodon.xml"
       ],
       "console": "integratedTerminal",
       "outputCapture": "std"

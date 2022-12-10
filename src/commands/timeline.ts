@@ -2,10 +2,15 @@ import { Command, Flags } from "@oclif/core";
 import axios from "axios";
 import "axios-debug-log/enable";
 import * as dotenv from "dotenv";
+import ellipsize from "ellipsize";
+import { Feed } from "feed";
+import jsdom from "jsdom";
+import fs from "node:fs";
 import parseLinkHeader from "parse-link-header";
 import { Config } from "../config";
 import { sharedFlags } from "../constants";
 
+const { JSDOM } = jsdom;
 const timelines = ["home", "public", "tag"];
 
 export default class Timeline extends Command {
@@ -60,6 +65,11 @@ export default class Timeline extends Command {
       summary: "show only remote statuses",
       default: false,
     }),
+    path: Flags.string({
+      char: "p",
+      aliases: ["path"],
+      summary: "file to write feed to",
+    }),
   };
 
   static args = [];
@@ -93,6 +103,8 @@ export default class Timeline extends Command {
       url = `/v1/timelines/tag/${encodeURIComponent(flags.tag)}`;
     }
 
+    const feedUrl = `${config.instance}${url}`;
+
     let posts = [];
     while (url) {
       const res = await mastodon.get(url, {
@@ -109,6 +121,69 @@ export default class Timeline extends Command {
 
     if (!flags.boosts) {
       posts = posts.filter((p) => !p.reblog);
+    }
+
+    const title = [
+      config.instance?.replace("https://", ""),
+      flags.tag || flags.feed,
+    ].join(" - ");
+
+    const feed = new Feed({
+      title,
+      id: feedUrl,
+      copyright: "none",
+      updated: new Date(Date.parse(posts[posts.length - 1].created_at)),
+      favicon: `${config.instance}/favicon.ico`,
+    });
+
+    for (const item of posts) {
+      const post = item.reblog || item;
+
+      let text = "";
+      try {
+        text = new JSDOM(post.content).window.document.body.textContent || "";
+        if (text) {
+          text = `: ${text}`;
+        }
+      } catch {}
+
+      const title = ellipsize(`${post.account.acct}${text}`, 60);
+      const link = `${config.instance}/@${post.account.acct}/${post.id}`;
+      const date = new Date(Date.parse(post.created_at));
+      const author = {
+        name: post.account.display_name,
+        link: post.account.url,
+      };
+
+      let content = post.content;
+
+      for (const media of post.media_attachments) {
+        switch (media.type) {
+          case "image":
+          case "gifv": {
+            content += `<p><img src="${media.url}" /></p>`;
+            break;
+          }
+
+          case "video": {
+            content += `<p><video controls src="${media.url}" poster="${media.preview_url}" /></p>`;
+            break;
+          }
+
+          case "audio": {
+            content += `<p><audio controls src="${media.url}" /></p>`;
+            break;
+          }
+        }
+      }
+
+      content = `<div>${content}</div>`;
+
+      feed.addItem({ title, link, date, author: [author], content });
+    }
+
+    if (flags.path) {
+      fs.writeFileSync(flags.path, feed.atom1());
     }
 
     this.log("complete");

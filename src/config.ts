@@ -203,24 +203,4 @@ export class Config {
       this.writeConfig();
     }
   };
-
-  /**
-   * set the tags to use on feedbin
-   * @returns void
-   */
-  setFeedbinTags = async (): Promise<void> => {
-    if (this.feedbinTags.length === 0) {
-      const primary: string = await CliUx.ux.prompt(
-        "tag to apply to mastodon rss feeds, this tag should not be used for other feeds",
-        { required: true, default: "t:mastodon" }
-      );
-
-      const tags: string = await CliUx.ux.prompt(
-        "other tags to apply to mastodon rss feeds, separate with commas",
-        { required: false, default: "all,t:social,s:script" }
-      );
-      this.feedbinTags = [primary, ...tags.split(",").map((t) => t.trim())];
-      this.writeConfig();
-    }
-  };
 }

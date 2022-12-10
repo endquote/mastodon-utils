@@ -20,7 +20,6 @@ export default class SyncFeeds extends Command {
     await config.setMastodonAccount();
     await config.setPublicToken();
     await config.setFeedbinAccount();
-    await config.setFeedbinTags();
 
     const mastodon = axios.create({
       baseURL: `${config.instance}/api`,

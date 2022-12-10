@@ -6,7 +6,7 @@ import parseLinkHeader from "parse-link-header";
 import { Config } from "../config";
 import { sharedFlags } from "../constants";
 
-export default class Sync extends Command {
+export default class SyncStars extends Command {
   static description = "sync feedbin stars with mastodon favourites";
   static examples = [];
   static flags = { ...sharedFlags };
@@ -14,7 +14,7 @@ export default class Sync extends Command {
 
   async run(): Promise<void> {
     dotenv.config();
-    const { args, flags } = await this.parse(Sync);
+    const { args, flags } = await this.parse(SyncStars);
 
     const config = await Config.init(this, flags.reset, flags.configFile);
     await config.setPublicToken();

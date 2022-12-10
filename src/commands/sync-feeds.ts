@@ -6,7 +6,7 @@ import parseLinkHeader from "parse-link-header";
 import { Config } from "../config";
 import { sharedFlags } from "../constants";
 
-export default class Sync extends Command {
+export default class SyncFeeds extends Command {
   static description = "sync mastodon followers with feedbin rss feeds";
   static examples = [];
   static flags = { ...sharedFlags };
@@ -14,11 +14,11 @@ export default class Sync extends Command {
 
   async run(): Promise<void> {
     dotenv.config();
-    const { args, flags } = await this.parse(Sync);
+    const { args, flags } = await this.parse(SyncFeeds);
 
     const config = await Config.init(this, flags.reset, flags.configFile);
-    await config.setPublicToken();
     await config.setMastodonAccount();
+    await config.setPublicToken();
     await config.setFeedbinAccount();
     await config.setFeedbinTags();
 
@@ -73,11 +73,7 @@ export default class Sync extends Command {
     for (const sub of followedSubs) {
       // find follow
       const follow = following.find((f) => f.url === sub.site_url);
-      // let me subscribe to myself
-      const self =
-        sub.feed_url.includes(config.instance) &&
-        sub.feed_url.includes(`${config.account}.rss`);
-      if (!follow && !self) {
+      if (!follow) {
         // if there's no follow, remove the subscription
         await feedbin.delete(`/subscriptions/${sub.id}.json`);
       }

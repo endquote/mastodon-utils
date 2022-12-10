@@ -28,6 +28,56 @@
       ],
       "console": "integratedTerminal",
       "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "timeline - home",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/bin/dev",
+      "args": [
+        "timeline",
+        "-f",
+        "home"
+      ],
+      "console": "integratedTerminal",
+      "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "timeline - public",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/bin/dev",
+      "args": [
+        "timeline",
+        "-f",
+        "public"
+      ],
+      "console": "integratedTerminal",
+      "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "timeline - tag",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/bin/dev",
+      "args": [
+        "timeline",
+        "-f",
+        "tag",
+        "-t",
+        "mastodon"
+      ],
+      "console": "integratedTerminal",
+      "outputCapture": "std"
     }
   ]
 }

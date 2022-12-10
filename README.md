@@ -8,11 +8,11 @@ mastodon-utils
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g @endquote/mastodon-utils
+$ npm install -g mastodon-utils
 $ mastodon-utils COMMAND
 running command...
 $ mastodon-utils (--version)
-@endquote/mastodon-utils/0.0.1 darwin-x64 node-v18.12.1
+mastodon-utils/0.0.1 darwin-x64 node-v18.12.1
 $ mastodon-utils --help [COMMAND]
 USAGE
   $ mastodon-utils COMMAND
@@ -31,6 +31,9 @@ USAGE
 * [`mastodon-utils plugins:uninstall PLUGIN...`](#mastodon-utils-pluginsuninstall-plugin-1)
 * [`mastodon-utils plugins:uninstall PLUGIN...`](#mastodon-utils-pluginsuninstall-plugin-2)
 * [`mastodon-utils plugins update`](#mastodon-utils-plugins-update)
+* [`mastodon-utils sync-feeds`](#mastodon-utils-sync-feeds)
+* [`mastodon-utils sync-stars`](#mastodon-utils-sync-stars)
+* [`mastodon-utils timeline`](#mastodon-utils-timeline)
 
 ## `mastodon-utils help [COMMAND]`
 
@@ -281,4 +284,65 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
+
+## `mastodon-utils sync-feeds`
+
+sync mastodon followers with feedbin rss feeds
+
+```
+USAGE
+  $ mastodon-utils sync-feeds [-r] [-c <value>]
+
+FLAGS
+  -c, --configFile=<value>  path to an alternate config file
+  -r, --reset               reset any saved configuration
+
+DESCRIPTION
+  sync mastodon followers with feedbin rss feeds
+```
+
+_See code: [dist/commands/sync-feeds.ts](https://github.com/endquote/mastodon-utils/blob/v0.0.1/dist/commands/sync-feeds.ts)_
+
+## `mastodon-utils sync-stars`
+
+sync feedbin stars with mastodon favourites
+
+```
+USAGE
+  $ mastodon-utils sync-stars [-r] [-c <value>]
+
+FLAGS
+  -c, --configFile=<value>  path to an alternate config file
+  -r, --reset               reset any saved configuration
+
+DESCRIPTION
+  sync feedbin stars with mastodon favourites
+```
+
+_See code: [dist/commands/sync-stars.ts](https://github.com/endquote/mastodon-utils/blob/v0.0.1/dist/commands/sync-stars.ts)_
+
+## `mastodon-utils timeline`
+
+write a mastodon timeline to an RSS feed
+
+```
+USAGE
+  $ mastodon-utils timeline [-r] [-c <value>] [-h <value>] [-b] [-f home|public|tag] [-t <value>] [-l] [-r]
+
+FLAGS
+  -b, --boosts              whether to include boosts in the feed
+  -c, --configFile=<value>  path to an alternate config file
+  -f, --feed=<option>       [default: home] which type of timeline to read
+                            <options: home|public|tag>
+  -h, --hours=<value>       [default: 48] how many hours of posts to grab
+  -l, --local               show only local statuses
+  -r, --remote              show only remote statuses
+  -r, --reset               reset any saved configuration
+  -t, --tag=<value>         which hashtag to read
+
+DESCRIPTION
+  write a mastodon timeline to an RSS feed
+```
+
+_See code: [dist/commands/timeline.ts](https://github.com/endquote/mastodon-utils/blob/v0.0.1/dist/commands/timeline.ts)_
 <!-- commandsstop -->

@@ -219,7 +219,7 @@ export class Config {
 
       const tags: string = await CliUx.ux.prompt(
         "other tags to apply to mastodon rss feeds, separate with commas",
-        { required: false, default: "t:all,t:social,s:script" }
+        { required: false, default: "all,t:social,s:script" }
       );
       this.feedbinTags = [primary, ...tags.split(",").map((t) => t.trim())];
       this.writeConfig();

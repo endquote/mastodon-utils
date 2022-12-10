@@ -18,6 +18,7 @@
     "**/node_modules": true,
     "**/Thumbs.db": true,
     "**/assets": true,
+    "**/tmp": true,
     "**/*.tsbuildinfo": true
   }
 }

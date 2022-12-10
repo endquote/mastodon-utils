@@ -82,7 +82,6 @@ export default class Timeline extends Command {
     await config.setMastodonAccount();
     await config.setPrivateToken("read+write+follow+push");
     await config.setFeedbinAccount();
-    await config.setFeedbinTags();
 
     const mastodon = axios.create({
       baseURL: `${config.instance}/api`,

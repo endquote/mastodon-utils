@@ -328,6 +328,7 @@ write a mastodon timeline to an RSS feed
 ```
 USAGE
   $ mastodon-utils timeline [-r] [-c <value>] [-h <value>] [-b] [-f home|public|tag] [-t <value>] [-l] [-r]
+    [-p <value>]
 
 FLAGS
   -b, --boosts              whether to include boosts in the feed
@@ -336,6 +337,7 @@ FLAGS
                             <options: home|public|tag>
   -h, --hours=<value>       [default: 48] how many hours of posts to grab
   -l, --local               show only local statuses
+  -p, --path=<value>        file to write feed to
   -r, --remote              show only remote statuses
   -r, --reset               reset any saved configuration
   -t, --tag=<value>         which hashtag to read

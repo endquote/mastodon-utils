@@ -130,9 +130,7 @@ export class Config {
   setPrivateToken = async (scopes: string): Promise<void> => {
     if (this.instance && this.clientId && !this.tokens[scopes]) {
       const authUrl = `${this.instance}/oauth/authorize?client_id=${this.clientId}&scope=${scopes}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code`;
-      await CliUx.ux.anykey("press any key to grant permission");
-      await CliUx.ux.open(authUrl);
-      const code = await CliUx.ux.prompt("enter the code", {
+      const code = await CliUx.ux.prompt(authUrl, {
         required: true,
       });
 

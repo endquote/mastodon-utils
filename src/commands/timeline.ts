@@ -176,6 +176,14 @@ export default class Timeline extends Command {
         }
       }
 
+      if (post.card) {
+        if (post.card.html) {
+          content += post.card.html;
+        } else if (post.card.image) {
+          content += `<p><a href="${post.card.url}"><img src="${post.card.image}" /></a></p>`;
+        }
+      }
+
       content = `<div>${content}</div>`;
 
       feed.addItem({ title, link, date, author: [author], content });

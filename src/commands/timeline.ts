@@ -158,12 +158,12 @@ export default class Timeline extends Command {
 
       for (const media of post.media_attachments) {
         switch (media.type) {
-          case "image":
-          case "gifv": {
+          case "image": {
             content += `<p><img src="${media.url}" /></p>`;
             break;
           }
 
+          case "gifv":
           case "video": {
             content += `<p><video controls src="${media.url}" poster="${media.preview_url}" /></p>`;
             break;

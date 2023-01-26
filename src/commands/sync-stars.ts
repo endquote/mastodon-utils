@@ -52,7 +52,11 @@ export default class SyncStars extends Command {
       const id = star.url.split("/").pop();
       if (id) {
         // favourite the post
-        await mastodon.post(`/v1/statuses/${id}/favourite`);
+        try {
+          await mastodon.post(`/v1/statuses/${id}/favourite`);
+        } catch (e) {
+          // might be a 404 if the post was deleted
+        }
 
         // delete the star on feedbin
         await feedbin.delete("/starred_entries.json", {
